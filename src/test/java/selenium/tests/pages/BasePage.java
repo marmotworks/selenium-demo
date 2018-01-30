@@ -18,18 +18,16 @@ public abstract class BasePage {
         this.driver = driver;
     }
 
-    public void waitForElement(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOf(element));
+    public WebElement waitForElementBy(By locator) {
+        return(new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfElementLocated(locator));
     }
-
 
     public WebElement waitForElementById(String id) {
         return(new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.id(id)));
     }
 
-    public WebElement waitForElementByClassName(String className) {
-        return(new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.className(className)));
+    public WebElement waitForNestedElement(WebElement root, By locator) {
+        return(new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfNestedElementLocatedBy(root, locator));
     }
 
     public void waitForTitle(String title) {

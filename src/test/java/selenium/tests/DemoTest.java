@@ -35,6 +35,12 @@ public class DemoTest extends BaseTest {
         SubaruOptionSelectionPage subaruOptionSelectionPage = subaruTrimSelectionPage.chooseTrimLevel("2.5i Premium");
 
         subaruOptionSelectionPage.selectTransmissionByName("Lineartronic CVT");
+
+        subaruOptionSelectionPage.selectExteriorColorByPaintCode("K1X");
+
+        subaruOptionSelectionPage.selectOptionByName("Trailer Hitch");
+
+
     }
 
 }
