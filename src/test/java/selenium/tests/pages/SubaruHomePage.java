@@ -7,6 +7,7 @@ public class SubaruHomePage extends SubaruBasePage{
 
     String title = "Subaru Cars, Sedans, SUVs | Subaru of America";
 
+    //This constructor runs methods from its base page, and then waits to verify the title has loaded.
     public SubaruHomePage(WebDriver driver){
         super(driver);
         waitForTitle(title);

@@ -12,18 +12,17 @@ import static java.lang.Thread.sleep;
 
 public abstract class BasePage {
 
+    /*
+    * BasePage.java holds utility/common methods shared across page objects
+    * */
+
     protected WebDriver driver;
 
     public BasePage(WebDriver driver){
         this.driver = driver;
     }
 
-    public void waitForElement(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOf(element));
-    }
-
-
+    //here we have some methods that clean up common uses of dynamic waits
     public WebElement waitForElementBy(By locator) {
         return(new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfElementLocated(locator));
     }
@@ -37,6 +36,7 @@ public abstract class BasePage {
         wait.until(ExpectedConditions.titleIs(title));
     }
 
+    //these are methods that execute javascript to force fields into view because selenium/angular will sometimes allow other elements to overlap
     public void bringElementIntoView(WebElement element) {
         try {
             sleep(500);
@@ -56,6 +56,7 @@ public abstract class BasePage {
         ((JavascriptExecutor) driver).executeScript(scrollElementIntoMiddle, element);
     }
 
+    //these are methods that are either not safe for all browsers, or are otherwise bad practice. They're sometimes unavoidable.
     public void badWait(int millis) {
         try {
             sleep(millis);

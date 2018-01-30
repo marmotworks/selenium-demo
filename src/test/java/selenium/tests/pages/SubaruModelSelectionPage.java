@@ -17,10 +17,12 @@ public class SubaruModelSelectionPage extends SubaruBasePage{
         waitForTitle(title);
     }
 
+    //Gets a list of vehicle names, finds the one that matches the model desired, and clicks the associated button.
     public SubaruTrimSelectionPage clickModelBuildButton(String model){
         List<WebElement> modelPanels = driver.findElements(By.className(vehiclePanelClassName));
         for (WebElement element : modelPanels) {
             if (element.getAttribute("ng-init").contains(model)) {
+                //if we don't bring the element into view, the bottom decorator bar obscures it.
                 bringElementIntoView(element);
                 element.findElement(By.className(buildButtonClassName)).click();
                 return new SubaruTrimSelectionPage(driver);

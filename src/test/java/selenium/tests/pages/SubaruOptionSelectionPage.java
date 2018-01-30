@@ -37,6 +37,9 @@ public class SubaruOptionSelectionPage extends SubaruBasePage {
     }
 
     public void selectExteriorColorByPaintCode(String paintCode) {
+        //I wanted to use the "color-chooser" id to locate against here.
+        //Unfortunately, I found that the interior color chooser uses the same ID.
+        //As a result, I'm using this CSS selector, which in the end seems better to me after all.
         WebElement colorChooser = waitForElementBy(By.cssSelector("div[color-title=\"'Exterior'\"]"));
         List<WebElement> colorOptions = colorChooser.findElements(By.cssSelector("div[ng-repeat='color in colors']"));
         for (WebElement colorOption : colorOptions) {
@@ -50,6 +53,9 @@ public class SubaruOptionSelectionPage extends SubaruBasePage {
 
     /*
     * Adds an option from the All category if it's not already selected.
+    * This method is long and should be broken up into two components (but I ran short of time):
+    * - one which locates and expands a given category
+    * - one which selects a desired option
     * */
     public void selectOptionByName(String optionName) {
         //wait for and locate the second of accordions that contain options
@@ -79,6 +85,7 @@ public class SubaruOptionSelectionPage extends SubaruBasePage {
                         bringElementToCenterOfView(option);
                         option.findElement(By.tagName("button")).click();
                         badWait(1000);
+                        break;
                     }
                 }
             }
