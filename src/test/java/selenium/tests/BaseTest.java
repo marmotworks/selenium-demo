@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 
 
 @ExtendWith(SeleniumExtension.class)
-public abstract class BaseIT {
+public abstract class BaseTest {
 
     protected WebDriver driver;
 

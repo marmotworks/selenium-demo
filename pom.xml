@@ -15,6 +15,8 @@
 
     <!--Dependency Versions for Test Framework Related Dependencies-->
     <junit.jupiter.version>5.0.3</junit.jupiter.version>
+    <surefire-provider.version>1.0.3</surefire-provider.version>
+    <surefire.version>2.19.1</surefire.version>
     <slf4j.version>1.7.25</slf4j.version>
     <hamcrest.version>1.3</hamcrest.version>
 
@@ -29,6 +31,7 @@
   </properties>
 
   <dependencies>
+
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>selenium-jupiter</artifactId>
@@ -58,6 +61,13 @@
     </dependency>
 
     <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit.jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-server</artifactId>
       <version>${selenium-server.version}</version>
@@ -71,14 +81,33 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-surefire-provider</artifactId>
+      <version>${surefire-provider.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>
     <plugins>
+      <!--Surefire plugin is augmented with dependencies required to run JUnit 5 tests-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.20.1</version>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-surefire-provider</artifactId>
+            <version>${surefire-provider.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
 
       <plugin>
@@ -89,6 +118,7 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 </project>

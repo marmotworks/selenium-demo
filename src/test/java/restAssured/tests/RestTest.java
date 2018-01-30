@@ -8,12 +8,12 @@ import static io.restassured.RestAssured.*;
 import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
 
-public class RestIT {
+public class RestTest {
 
     String url = "http://jsonplaceholder.typicode.com";
 
     @Test
-    public void verifyEndpointValidity(){
+    public void verifyPostsEndpointValidity(){
         given().when()
                 .get(url + "/posts/1/")
                 .then().assertThat().statusCode(200);
