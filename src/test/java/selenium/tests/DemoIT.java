@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * We're using this SeleniumExtension from Boni Garcia to trivialize the process of creating the driver and providing some extensibility.
  */
 
-public class DemoTest extends BaseTest {
+public class DemoIT extends BaseIT {
 
     @TestTemplate
     public void helloTest() {

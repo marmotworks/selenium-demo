@@ -68,7 +68,7 @@ public class SubaruOptionSelectionPage extends SubaruBasePage {
                     option.findElement(By.tagName("button")).click();
                     WebDriverWait driverWait = new WebDriverWait(driver, 10);
                     //driverWait.until(ExpectedConditions.textToBe(By.cssSelector("span[class='item-status ng-binding']"), "added"));
-                    driverWait.until(ExpectedConditions.textToBePresentInElement(option.findElement(By.cssSelector("span[class='item-status ng-binding']")), "added"));
+                    //driverWait.until(ExpectedConditions.textToBePresentInElement(option.findElement(By.cssSelector("span[class='item-status ng-binding']")), "added"));
                 }
             }
 
