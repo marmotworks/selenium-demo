@@ -1,5 +1,7 @@
 package selenium.tests;
 
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.TestTemplate;
 import selenium.tests.pages.SubaruOptionSelectionPage;
 import selenium.tests.pages.SubaruTrimSelectionPage;
@@ -40,7 +42,9 @@ public class DemoTest extends BaseTest {
 
         subaruOptionSelectionPage.selectOptionByName("Trailer Hitch");
 
+        String finalTotal = subaruOptionSelectionPage.getPrice();
 
+        assertThat(finalTotal, Matchers.equalToIgnoringCase("$27,723"));
     }
 
 }

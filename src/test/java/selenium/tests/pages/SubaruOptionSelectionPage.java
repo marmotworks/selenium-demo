@@ -18,7 +18,7 @@ public class SubaruOptionSelectionPage extends SubaruBasePage {
     }
 
     public void selectTransmissionByName(String transmissionName) {
-        WebElement transmissionChooser = waitForElementById("transmission-chooser");
+        WebElement transmissionChooser = waitForElementBy(By.id("transmission-chooser"));
         List<WebElement> transmissionOptions = transmissionChooser.findElements(By.className("ng-scope"));
         badWait(1000);
         for (WebElement transmissionOption : transmissionOptions) {
@@ -28,8 +28,9 @@ public class SubaruOptionSelectionPage extends SubaruBasePage {
 
                 WebElement transmissionButton = transmissionOption.findElement(By.tagName("button"));
                 bringElementToCenterOfView(transmissionButton);
+                badWait(1000);
                 transmissionButton.click();
-                waitForElementById("transmission-chooser");
+                waitForElementBy(By.id("transmission-chooser"));
                 break;
             }
         }
@@ -47,35 +48,46 @@ public class SubaruOptionSelectionPage extends SubaruBasePage {
         }
     }
 
+    /*
+    * Adds an option from the All category if it's not already selected.
+    * */
     public void selectOptionByName(String optionName) {
-        WebElement optionChooser = waitForElementById("accessory-chooser");
-        List<WebElement> optionCategories = optionChooser.findElements(By.tagName("accessory-accordion-bar"));
-        for (WebElement optionCategory : optionCategories) {
+        //wait for and locate the second of accordions that contain options
+        WebElement optionChooser = waitForElementBy(By.id("accessory-chooser"));
 
+        //get a list of accordion sections
+        List<WebElement> optionCategories = optionChooser.findElements(By.tagName("accessory-accordion-bar"));
+
+        //for each of these categories, check their name
+        for (WebElement optionCategory : optionCategories) {
             String optionCategoryName = optionCategory.findElement(By.cssSelector("span[class='acc-category ng-binding']")).getText();
             String expansionIcon = optionCategory.findElement(By.tagName("i")).getAttribute("class");
-            if (optionCategoryName.equalsIgnoreCase("All") && expansionIcon.equalsIgnoreCase("icon-minus")) {
+
+            //if the name of the category is All and the accordion is not expanded, expand it
+            if (optionCategoryName.equalsIgnoreCase("All") && expansionIcon.equalsIgnoreCase("icon-plus")) {
+                bringElementToCenterOfView(optionCategory);
                 optionCategory.click();
-                waitForNestedElement(optionCategory, By.cssSelector("accordion-content row"));
-            }
-            //break out here?
-            List<WebElement> allOptions = optionCategory.findElements(By.tagName("accessory-item-display"));
-            for (WebElement option : allOptions) {
-                String optionLabel = option.findElement(By.className("accessory-name")).getText();
-                String itemStatus = option.findElement(By.cssSelector("span[class='item-status ng-binding']")).getText();
-                if (optionLabel.equalsIgnoreCase(optionName) && itemStatus.equalsIgnoreCase("add")) {
-                    bringElementToCenterOfView(option);
-                    option.findElement(By.tagName("button")).click();
-                    WebDriverWait driverWait = new WebDriverWait(driver, 10);
-                    //driverWait.until(ExpectedConditions.textToBe(By.cssSelector("span[class='item-status ng-binding']"), "added"));
-                    //driverWait.until(ExpectedConditions.textToBePresentInElement(option.findElement(By.cssSelector("span[class='item-status ng-binding']")), "added"));
+                waitForNestedElement(optionCategory, By.cssSelector("div[class='accordion-content row']"));
+
+                //get a list of the options in the All category and find the option we're looking for
+                List<WebElement> allOptions = optionCategory.findElements(By.tagName("accessory-item-display"));
+                for (WebElement option : allOptions) {
+                    String optionLabel = option.findElement(By.className("accessory-name")).getText();
+                    String itemStatus = option.findElement(By.cssSelector("span[class='item-status ng-binding']")).getText();
+                    //if the option is found and it hasn't already been added, add it
+                    if (optionLabel.equalsIgnoreCase(optionName) && itemStatus.equalsIgnoreCase("add")) {
+                        bringElementToCenterOfView(option);
+                        option.findElement(By.tagName("button")).click();
+                        badWait(1000);
+                    }
                 }
             }
-
         }
     }
 
-    public void getPrice(){
-
+    public String getPrice(){
+        WebElement totalSection = driver.findElement(By.cssSelector("table[class='summary-section summary-total ng-scope']"));
+        String total = totalSection.findElement(By.cssSelector("td[class='ng-binding']")).getText();
+        return total;
     }
 }

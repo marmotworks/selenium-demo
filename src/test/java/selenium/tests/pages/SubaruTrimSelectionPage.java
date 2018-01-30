@@ -27,11 +27,12 @@ public class SubaruTrimSelectionPage extends SubaruBasePage{
     //TODO handle the pagination to select 2.0XT Models
     public SubaruOptionSelectionPage chooseTrimLevel(String trimLevel){
 
-        WebElement trimPanel = waitForElementById("fourth_animated_content");
+        WebElement trimPanel = waitForElementBy(By.id("fourth_animated_content"));
         List<WebElement> trimList = trimPanel.findElements(By.className("trim-title"));
         for (WebElement trimLabel : trimList) {
             if (trimLabel.getText().replace("\n", " ").equals(trimLevel)) {
                 badWait(1000);
+                bringElementToCenterOfView(trimLabel);
                 trimLabel.click();
                 return new SubaruOptionSelectionPage(driver);
             }
