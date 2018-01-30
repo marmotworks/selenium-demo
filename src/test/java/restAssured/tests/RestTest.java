@@ -14,13 +14,15 @@ public class RestTest {
     * This is the first time I've used RestAssured or Hamcrest, so there's probably some rough bits here
     * Moving forward, common methods should be broken out for building the URL's, establishing initial connection, etc.
     * Tests for each endpoint should include at least basic CRUD operations instead of only read.
+    *
+    * Additionally, a framework like Serenity would be great here for breaking more complex tests into steps.
     * */
 
-    String url = "http://jsonplaceholder.typicode.com";
+    private String url = "http://jsonplaceholder.typicode.com";
 
     //This test simply verifies connectivity and the ability to get a response from a known endpoint
     @Test
-    public void verifyPostsEndpointValidity(){
+    void verifyPostsEndpointValidity(){
         given().when()
                 .get(url + "/posts/1/")
                 .then().assertThat().statusCode(200);
@@ -28,7 +30,7 @@ public class RestTest {
 
     //This test verifies the record for a given username exists and that it's name is correct
     @Test
-    public void verifyUserExists(){
+    void verifyUserExists(){
 
         String section = "users";
         String query = "username";
@@ -42,7 +44,8 @@ public class RestTest {
     }
 
     //this test verifies that querying for a username returns the same user as when requesting the user by ID
-    @Test void usernameQueryTest(){
+    @Test
+    void usernameQueryTest(){
 
         String section = "users";
         String query = "username";
